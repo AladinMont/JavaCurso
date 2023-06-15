@@ -97,17 +97,18 @@ public class Principal
 	public static void main(String [] args)
 	{
 		//crea Imagen de prueba
-		/*
+
 		int pxl[][] = {
 			{200, 75, 87,  200, 75},
 			{129, 75, 87,  240, 240},
 			{58,  75, 75,  75,  240},
 			{58,  58, 210, 210, 210},
-			{200, 25, 26,  240, 26}
+			{200, 75, 26,  240, 26}
 		};
 
 		Imagen img = new Imagen(pxl, 8);
-		img.escribeImagen("Prueba.bmp");*/
+		img.escribeImagen("Prueba.bmp");
+
 		try {
 			// Ruta de la imagen BMP
 			File file = new File("Prueba.bmp");
@@ -172,6 +173,7 @@ public class Principal
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 
 
 		/*
