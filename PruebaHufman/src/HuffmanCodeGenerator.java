@@ -6,12 +6,12 @@ import java.util.*;
 
 public class HuffmanCodeGenerator {
     private static class HuffmanNode {
-        char data;
+        char symbol;
         int frequency;
         HuffmanNode left, right;
 
         HuffmanNode(char data, int frequency) {
-            this.data = data;
+            this.symbol = data;
             this.frequency = frequency;
         }
     }
@@ -78,7 +78,7 @@ public class HuffmanCodeGenerator {
         }
 
         if (node.left == null && node.right == null) {
-            codes.put(node.data, code);
+            codes.put(node.symbol, code);
         }
 
         generateHuffmanCodes(node.left, code + "0", codes);
@@ -110,7 +110,7 @@ public class HuffmanCodeGenerator {
     }
 
     private static void drawHuffmanTree(mxGraph graph, Object parent, Object previousVertex, HuffmanNode node) {
-        Object vertex = graph.insertVertex(parent, null, node.data + " (" + node.frequency + ")", 0, 0, 80, 30);
+        Object vertex = graph.insertVertex(parent, null, node.symbol + " (" + node.frequency + ")", 0, 0, 80, 30);
 
         if (previousVertex != null) {
             graph.insertEdge(parent, null, null, previousVertex, vertex);

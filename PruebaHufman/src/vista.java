@@ -1,4 +1,8 @@
 import org.jfree.data.category.DefaultCategoryDataset;
+import java.util.*;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
 import java.awt.*;
@@ -140,6 +144,7 @@ public class vista extends JFrame {
                 }
             }
             HuffmanNode root = buildHuffmanTree(frequencyMap);
+            drawHuffmanTree(root);
 
             // Construir el mapa de códigos
             Map<String, String> codeMap = new HashMap<>();
@@ -202,6 +207,46 @@ public class vista extends JFrame {
     private void displayImage(BufferedImage image) {
         ImageIcon imageIcon = new ImageIcon(image);
         imageLabel.setIcon(imageIcon);
+    }
+
+    private static void drawHuffmanTree(HuffmanNode root) {
+        mxGraph graph = new mxGraph();
+        Object parent = graph.getDefaultParent();
+
+        graph.getModel().beginUpdate();
+
+        try {
+            drawHuffmanTree(graph, parent, null, root);
+        } finally {
+            graph.getModel().endUpdate();
+        }
+
+        mxGraphComponent graphComponent = new mxGraphComponent(graph);
+        mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
+        layout.execute(graph.getDefaultParent());
+
+        javax.swing.JFrame frame = new javax.swing.JFrame();
+        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(graphComponent);
+        frame.pack();
+        //frame.setSize(800,600);
+        frame.setVisible(true);
+    }
+
+    private static void drawHuffmanTree(mxGraph graph, Object parent, Object previousVertex, HuffmanNode node) {
+        Object vertex = graph.insertVertex(parent, null, node.symbol + " (" + node.frequency + ")", 0, 0, 80, 30);
+
+        if (previousVertex != null) {
+            graph.insertEdge(parent, null, null, previousVertex, vertex);
+        }
+
+        if (node.left != null) {
+            drawHuffmanTree(graph, parent, vertex, node.left);
+        }
+
+        if (node.right != null) {
+            drawHuffmanTree(graph, parent, vertex, node.right);
+        }
     }
 
     private static Map<String, Map<String, Object>> createCharacterDataMap(Map<String, Integer> frequencyMap, Map<String, String> codes) {
