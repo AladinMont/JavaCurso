@@ -52,7 +52,7 @@ public class vista extends JFrame {
         JPanel Lista = new JPanel();
         Lista.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        String[] columnNames = {"Valor", "Código", "Frecuencia"};
+        String[] columnNames = {"Valor", "Frecuencia", "Código"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
 
@@ -145,29 +145,37 @@ public class vista extends JFrame {
             Map<String, String> codeMap = new HashMap<>();
             generateHuffmanCodes(root, "", codeMap);
 
-            System.out.println("Árbol de Huffman:");
-            printHuffmanTree(root, "");
+            //System.out.println("Árbol de Huffman:");
+            //printHuffmanTree(root, "");
 
             // Imprimir los códigos de Huffman
 
             scrollPane.setVisible(true);
-            String[][] rowData= new String[codeMap.size()][2];
-            int[] rowData2= new int[frequencyMap.size()];
-            int i=0, j=0;
-            for (Map.Entry<String, String> entry : codeMap.entrySet()) {
-                rowData[i][0] = entry.getKey();
-                rowData[i][1] = entry.getValue();
-                i++;
+            String[][] rowData= new String[codeMap.size()][3];
+            int i=0;
+            /*for (Map.Entry<String, String> entry : codeMap.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue());
-            }
+            }*/
 
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (Map.Entry<String, Integer> entry : frequencyMap.entrySet()) {
                 String colorKey = entry.getKey();
                 int count = entry.getValue();
                 dataset.addValue(count, "A", colorKey);
-                rowData2[j]=count;
-                j++;
+
+            }
+            Map<String, Map<String, Object>> characterDataMap = createCharacterDataMap(frequencyMap, codeMap);
+            System.out.println("Character Data:");
+            for (Map.Entry<String, Map<String, Object>> entry : characterDataMap.entrySet()) {
+                String character = entry.getKey();
+                Map<String, Object> data = entry.getValue();
+                int frequency = (int) data.get("frequency");
+                String huffmanCode = (String) data.get("huffmanCode");
+                //System.out.println(character + ": " + frequency + ", " + huffmanCode);
+                rowData[i][0] = character;
+                rowData[i][1] = String.valueOf(frequency);
+                rowData[i][2] = huffmanCode;
+                i++;
             }
             JFreeChart chart = ChartFactory.createBarChart(
                     "Cantidad de elementos repetidos","",
@@ -177,8 +185,8 @@ public class vista extends JFrame {
             ChartFrame frame = new ChartFrame("Cantidad de elementos repetidos", chart);
             frame.pack();
             frame.setVisible(true);
-            for (int k = 0; k < rowData2.length; k++) {
-                String[] finaldata = {rowData[k][0], rowData[k][1], rowData2[k]+""};
+            for (int k = 0; k < rowData.length; k++) {
+                String[] finaldata = {rowData[k][0], rowData[k][1], rowData[k][2]};
                 model.addRow(finaldata);
             }
 
@@ -194,6 +202,22 @@ public class vista extends JFrame {
     private void displayImage(BufferedImage image) {
         ImageIcon imageIcon = new ImageIcon(image);
         imageLabel.setIcon(imageIcon);
+    }
+
+    private static Map<String, Map<String, Object>> createCharacterDataMap(Map<String, Integer> frequencyMap, Map<String, String> codes) {
+        Map<String, Map<String, Object>> characterDataMap = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : frequencyMap.entrySet()) {
+            String character = entry.getKey();
+            int frequency = entry.getValue();
+            String huffmanCode = codes.get(character);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("frequency", frequency);
+            data.put("huffmanCode", huffmanCode);
+
+            characterDataMap.put(character, data);
+        }
+        return characterDataMap;
     }
 
     private static HuffmanNode buildHuffmanTree(Map<String, Integer> frequencyMap) {
@@ -239,7 +263,7 @@ public class vista extends JFrame {
         generateHuffmanCodes(node.right, code + "1", codeMap);
     }
 
-    private static void printHuffmanTree(HuffmanNode node, String indent) {
+    /*private static void printHuffmanTree(HuffmanNode node, String indent) {
         if (node == null) {
             return;
         }
@@ -253,7 +277,7 @@ public class vista extends JFrame {
             System.out.println(indent + "└─ Derecha:");
             printHuffmanTree(node.right, indent + "   ");
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

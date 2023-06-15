@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="jcommon-1.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/librerias/jcommon-1.0.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/librerias/jfreechart-1.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/librerias/jgraphx.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/librerias/mxgraph-all.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
