@@ -6,7 +6,7 @@ public class Huffman
     {
         byte bytesLeido;
         int frecuencias[]=new int[256];
-        try{
+        try{/*
             FileInputStream f1=new FileInputStream("./pepe.txt");
             for(int i=0;i<256;i++)
                 frecuencias[i]=0;
@@ -23,7 +23,7 @@ public class Huffman
             System.out.println("frecuencia de a's:" + frecuencias[97]);
             System.out.println("frecuencia de b's:" + frecuencias[98]);
             System.out.println("frecuencia de c's:" +frecuencias[99]);
-            
+            */
             
             
             
@@ -43,7 +43,7 @@ public class Huffman
             f2=new FileOutputStream("./salida.txt");
             f2.write(b);
             f2.close();
-            f1.close();
+            //f1.close();
         }
         catch(IOException e)
         {
